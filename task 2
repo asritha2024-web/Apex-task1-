@@ -1,0 +1,48 @@
+[6/19, 11:54 AM] Srillu Ga🤸: <!DOCTYPE html>
+<html>
+<head>
+    <title>Student Registration Form</title>
+</head>
+<body style="font-family: Arial; background:#f4f4f4; padding:20px;">
+
+    <h2 style="color:blue;">Student Registration Form</h2>
+
+    <form action="/submit" method="POST"
+          onsubmit="return validateForm()"
+          style="background:white;padding:20px;width:350px;border-radius:10px;">
+
+        <label>Name:</label><br>
+        <input type="text" id="name" name="name"><br><br>
+
+        <label>Email:</label><br>
+        <input type="email" id="email" name="email"><br><br>
+
+        <label>Age:</label><br>
+        <input type="number" id="age" name="age"><br><br>
+
+        <input type="submit" value="Register"
+               style="background:green;color:white;padding:10px;border:none;">
+    </form>
+
+    <script>
+        function validateForm() {
+            let name = document.getElementById("name").value;
+            let email = document.getElementById("email").value;
+            let age = document.getElementById("age").value;
+
+            if (name === "" || email === "" || age === "") {
+                alert("All fields are required!");
+                return false;
+            }
+
+            if (age < 18) {
+                alert("Age must be 18 or above");
+                return false;
+            }
+
+            return true;
+        }
+    </script>
+
+</body>
+</html>
