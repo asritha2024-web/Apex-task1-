@@ -1,0 +1,151 @@
+[6/21, 7:34 PM] Srillu Ga🤸: *{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial, sans-serif;
+    background:#f4f4f4;
+    text-align:center;
+}
+
+header{
+    background:#008080;
+    color:white;
+    padding:20px;
+}
+
+.container{
+    background:white;
+    width:70%;
+    margin:20px auto;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,0.2);
+}
+
+button{
+    display:block;
+    width:80%;
+    margin:10px auto;
+    padding:10px;
+    border:none;
+    background:#008080;
+    color:white;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#005f5f;
+}
+
+#result,
+#joke{
+    margin-top:15px;
+    font-size:18px;
+    font-weight:bold;
+}
+
+/* Responsive Design */
+
+@media(max-width:768px){
+    .container{
+        width:90%;
+    }
+
+    h1{
+        font-size:24px;
+    }
+}
+
+@media(max-width:480px){
+    h1{
+        font-size:20px;
+    }
+
+    button{
+        width:100%;
+    }
+}
+[6/21, 7:34 PM]: <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Styling and JavaScript</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>Advanced Styling and JavaScript</h1>
+    </header>
+
+    <!-- Quiz Section -->
+    <section class="container">
+        <h2>Interactive Quiz</h2>
+
+        <p id="question">What does HTML stand for?</p>
+
+        <button onclick="checkAnswer('a')">
+            Hyper Text Markup Language
+        </button>
+
+        <button onclick="checkAnswer('b')">
+            High Text Machine Language
+        </button>
+
+        <button onclick="checkAnswer('c')">
+            Hyper Tool Markup Language
+        </button>
+
+        <p id="result"></p>
+    </section>
+
+    <!-- API Section -->
+    <section class="container">
+        <h2>Random Joke Generator</h2>
+
+        <button onclick="getJoke()">Get Joke</button>
+
+        <p id="joke"></p>
+    </section>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
+[6/21, 7:34 PM] : // Quiz Function
+
+function checkAnswer(answer) {
+    let result = document.getElementById("result");
+
+    if(answer === "a") {
+        result.innerHTML = "✅ Correct Answer!";
+        result.style.color = "green";
+    } else {
+        result.innerHTML = "❌ Wrong Answer!";
+        result.style.color = "red";
+    }
+}
+
+// Fetch API Function
+
+async function getJoke() {
+    try {
+        const response = await fetch(
+            "https://official-joke-api.appspot.com/random_joke"
+        );
+
+        const data = await response.json();
+
+        document.getElementById("joke").innerHTML =
+            data.setup + "<br><br>" + data.punchline;
+
+    } catch(error) {
+        document.getElementById("joke").innerHTML =
+            "Error loading joke.";
+    }
+}
