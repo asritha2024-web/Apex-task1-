@@ -1,0 +1,162 @@
+[6/19, 11:57 AM] Srillu Ga🤸: <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Website</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <h1>My Portfolio</h1>
+    <nav>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+</header>
+
+<section id="home" class="hero">
+    <h2>Welcome to My Portfolio</h2>
+    <p>Web Developer | Designer | Learner</p>
+    <button onclick="showMessage()">Click Me</button>
+</section>
+
+<section id="about">
+    <h2>About Me</h2>
+    <p>I am passionate about web development and creating responsive websites.</p>
+</section>
+
+<section id="projects">
+    <h2>Projects</h2>
+    <div class="project-card">
+        <h3>Student Registration Form</h3>
+        <p>HTML, CSS, JavaScript</p>
+    </div>
+
+    <div class="project-card">
+        <h3>Portfolio Website</h3>
+        <p>Responsive Design</p>
+    </div>
+</section>
+
+<section id="contact">
+    <h2>Contact Me</h2>
+    <form>
+        <input type="text" placeholder="Your Name" required>
+        <input type="email" placeholder="Your Email" required>
+        <textarea placeholder="Message"></textarea>
+        <button type="submit">Send</button>
+    </form>
+</section>
+
+<footer>
+    <p>© 2026 My Portfolio</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
+[6/19, 11:57 AM]: function showMessage() {
+    alert("Welcome to My Portfolio Website!");
+}
+[6/19, 11:57 AM] : *{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f4f4f4;
+}
+
+header{
+    background:#008080;
+    color:white;
+    padding:15px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+nav ul{
+    list-style:none;
+    display:flex;
+}
+
+nav ul li{
+    margin-left:20px;
+}
+
+nav ul li a{
+    color:white;
+    text-decoration:none;
+}
+
+.hero{
+    text-align:center;
+    padding:80px 20px;
+    background:#e0f7f7;
+}
+
+.hero button{
+    padding:10px 20px;
+    margin-top:10px;
+    cursor:pointer;
+}
+
+section{
+    padding:40px;
+}
+
+.project-card{
+    background:white;
+    padding:20px;
+    margin:15px 0;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+form{
+    display:flex;
+    flex-direction:column;
+}
+
+input, textarea{
+    margin:10px 0;
+    padding:10px;
+}
+
+button{
+    background:#008080;
+    color:white;
+    border:none;
+    padding:10px;
+}
+
+footer{
+    text-align:center;
+    background:#008080;
+    color:white;
+    padding:15px;
+}
+
+@media(max-width:768px){
+    header{
+        flex-direction:column;
+    }
+
+    nav ul{
+        flex-direction:column;
+        text-align:center;
+    }
+
+    nav ul li{
+        margin:10px 0;
+    }
+}
