@@ -1,0 +1,149 @@
+[6/19, 11:56 AM]: const express = require("express");
+const app = express();
+const PORT = 3000;
+
+// Temporary server-side storage
+let submissions = [];
+
+app.use(express.urlencoded({ extended: true }));
+app.set("view engine", "ejs");
+
+// GET route - show form
+app.get("/", (req, res) => {
+    res.render("form", { 
+        errors: [], 
+        oldData: {}, 
+        submissions: submissions 
+    });
+});
+
+// POST route - handle form submission
+app.post("/submit", (req, res) => {
+    const { name, email, age, password } = req.body;
+    let errors = [];
+
+    // Server-side validation
+    if (!name || name.trim().length < 3) {
+        errors.push("Name must be at least 3 characters.");
+    }
+    if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
+        errors.push("Enter a valid email address.");
+    }
+    if (!age || age < 18 || age > 60) {
+        errors.push("Age must be between 18 and 60.");
+    }
+    if (!password || password.length < 6) {
+        errors.push("Password must be at least 6 characters.");
+    }
+
+    if (errors.length > 0) {
+        // If errors, re-render form with errors and old data
+        return res.render("form", { 
+            errors, 
+            oldData: req.body, 
+            submissions 
+        });
+    }
+
+    // Store validated data in temporary storage
+    submissions.push({ name, email, age, password });
+    
+    // Redirect to avoid form resubmission on refresh
+    res.redirect("/");
+});
+
+app.listen(PORT, () => {
+    console.log(`Server running at http://localhost:${PORT}`);
+});
+[6/19, 11:56 AM] : <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Cognifyz Task 2</title>
+</head>
+<body style="font-family: Arial, sans-serif; background: #dbe9ff; margin:0; padding: 40px; display: flex; justify-content: center;">
+
+<div style="background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); width: 500px;">
+
+    <h1 style="text-align: center; color: #2b4cff;">Registration Form</h1>
+
+    <!-- Server-side error display -->
+    <% if (errors.length > 0) { %>
+        <div style="background: #ffe6e6; color: #d8000c; padding: 12px; border-radius: 6px; margin-bottom: 15px;">
+            <strong>Fix these errors:</strong>
+            <ul style="margin: 5px 0 0 20px;">
+                <% errors.forEach(err => { %>
+                    <li><%= err %></li>
+                <% }) %>
+            </ul>
+        </div>
+    <% } %>
+
+    <!-- Form with inline styles -->
+    <form id="regForm" action="/submit" method="POST" style="display: flex; flex-direction: column; gap: 12px;">
+        
+        <label style="font-weight: bold;">Name:</label>
+        <input type="text" name="name" value="<%= oldData.name || '' %>" 
+               style="padding: 10px; border: 1px solid #ccc; border-radius: 6px;" required>
+        
+        <label style="font-weight: bold;">Email:</label>
+        <input type="email" name="email" value="<%= oldData.email || '' %>" 
+               style="padding: 10px; border: 1px solid #ccc; border-radius: 6px;" required>
+        
+        <label style="font-weight: bold;">Age:</label>
+        <input type="number" name="age" value="<%= oldData.age || '' %>" 
+               style="padding: 10px; border: 1px solid #ccc; border-radius: 6px;" required>
+        
+        <label style="font-weight: bold;">Password:</label>
+        <input type="password" name="password" 
+               style="padding: 10px; border: 1px solid #ccc; border-radius: 6px;" required>
+
+        <button type="submit" 
+                style="padding: 12px; background: #2b4cff; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 16px; margin-top: 10px;">
+            Submit
+        </button>
+    </form>
+
+    <!-- Client-side JS validation -->
+    <script>
+        document.getElementById("regForm").addEventListener("submit", function(e) {
+            let name = this.name.value.trim();
+            let email = this.email.value.trim();
+            let age = this.age.value;
+            let password = this.password.value;
+            let errors = [];
+
+            if (name.length < 3) errors.push("Name must be at least 3 characters.");
+            if (!/^\S+@\S+\.\S+$/.test(email)) errors.push("Enter a valid email.");
+            if (age < 18 || age > 60) errors.push("Age must be 18-60.");
+            if (password.length < 6) errors.push("Password must be at least 6 characters.");
+
+            if (errors.length > 0) {
+                e.preventDefault();
+                alert("Client-side errors:\n" + errors.join("\n"));
+            }
+        });
+    </script>
+
+    <!-- Display stored submissions -->
+    <% if (submissions.length > 0) { %>
+        <h2 style="margin-top: 30px; color: #2b4cff;">Stored Submissions</h2>
+        <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+            <tr style="background: #2b4cff; color: white;">
+                <th style="padding: 8px; border: 1px solid #ccc;">Name</th>
+                <th style="padding: 8px; border: 1px solid #ccc;">Email</th>
+                <th style="padding: 8px; border: 1px solid #ccc;">Age</th>
+            </tr>
+            <% submissions.forEach(sub => { %>
+                <tr>
+                    <td style="padding: 8px; border: 1px solid #ccc;"><%= sub.name %></td>
+                    <td style="padding: 8px; border: 1px solid #ccc;"><%= sub.email %></td>
+                    <td style="padding: 8px; border: 1px solid #ccc;"><%= sub.age %></td>
+                </tr>
+            <% }) %>
+        </table>
+    <% } %>
+
+</div>
+</body>
+</html>
